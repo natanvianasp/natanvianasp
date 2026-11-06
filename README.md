@@ -7,11 +7,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/uncached-app"><img src="assets/icon-uncached.png" width="120" alt="Uncached" /></a>
-  <a href="https://github.com/uncached-app/uncached-core"><img src="assets/icon-core.png" width="120" alt="uncached-core" /></a>
-  <a href="https://github.com/uncached-app/uncached-desktop"><img src="assets/icon-desktop.png" width="120" alt="uncached-desktop" /></a>
-  <a href="https://uncached.app"><img src="assets/icon-website.png" width="120" alt="uncached.app" /></a>
-  <a href="https://natanviana.dev"><img src="assets/icon-portfolio.png" width="120" alt="natanviana.dev" /></a>
+  <a href="https://github.com/uncached-app"><img src="assets/icon-uncached.png" width="160" alt="Uncached" /></a>
+  <a href="https://github.com/uncached-app/uncached-core"><img src="assets/icon-core.png" width="160" alt="uncached-core" /></a>
+  <a href="https://github.com/uncached-app/uncached-desktop"><img src="assets/icon-desktop.png" width="160" alt="uncached-desktop" /></a>
+  <a href="https://uncached.app"><img src="assets/icon-website.png" width="160" alt="uncached.app" /></a>
+  <a href="https://natanviana.dev"><img src="assets/icon-portfolio.png" width="160" alt="natanviana.dev" /></a>
 </p>
 
 <p align="center">
