@@ -4,9 +4,9 @@ Usage: python build-assets.py <sheet.jpg> <out-dir>
 
 The sheet is resampled onto its native pixel grid (STEP source pixels per art
 pixel, phase OFFSET_X/OFFSET_Y), reduced to PALETTE_SIZE colours, cut into its
-items, labelled with a 3x5 bitmap font on the same grid, and written at SCALE
-device pixels per art pixel. README widths are art width * SCALE / 2 so retina
-screens get exact integer scaling.
+items, labelled with a 5x7 bitmap font at TEXT_DENSITY pixels per art pixel,
+and written at SCALE device pixels per art pixel. README widths are art width
+* SCALE / 2 so retina screens get exact integer scaling.
 """
 
 import sys
@@ -18,6 +18,7 @@ from PIL import Image
 STEP, OFFSET_X, OFFSET_Y = 5.74, 0.0, 2.8
 PALETTE_SIZE = 64
 SCALE = 8
+TEXT_DENSITY = 2
 WHITE_THRESHOLD = 235
 
 BANNER_BOX = (13, 10, 227, 59)
@@ -26,24 +27,38 @@ ICON_ROW = (73, 99)
 ICON_COLUMNS = ((15, 36), (51, 76), (89, 113), (128, 149), (164, 189))
 ICON_NAMES = ("uncached", "core", "desktop", "website", "portfolio")
 ICON_LABELS = ("UNCACHED", "CORE", "DESKTOP", "WEBSITE", "PORTFOLIO")
-ICON_TILE = (40, 37)
+ICON_TILE = (40, 36)
 
 INK = (20, 20, 15)
 WHITE = (255, 255, 255)
 
+GLYPH_WIDTH, GLYPH_HEIGHT = 5, 7
 GLYPHS = {
-    "A": "010101111101101", "B": "110101110101110", "C": "011100100100011",
-    "D": "110101101101110", "E": "111100110100111", "F": "111100110100100",
-    "G": "011100101101011", "H": "101101111101101", "I": "111010010010111",
-    "K": "101101110101101", "L": "100100100100111", "M": "101111111101101",
-    "N": "110101101101101", "O": "010101101101010", "P": "110101110100100",
-    "R": "110101110101101", "S": "011100010001110", "T": "111010010010010",
-    "U": "101101101101111", "V": "101101101101010", "W": "101101111111101",
-    "X": "101101010101101", "Y": "101101010010010", "Z": "111001010100111",
-    "0": "111101101101111", "1": "010110010010111", "2": "110001010100111",
-    "3": "110001010001110", "4": "101101111001001", "5": "111100110001110",
-    "7": "111001010010010", "-": "000000111000000", ".": "000000000000010",
-    "!": "010010010000010", " ": "000000000000000", ":": "000010000010000",
+    "A": ("01110", "10001", "10001", "11111", "10001", "10001", "10001"),
+    "B": ("11110", "10001", "10001", "11110", "10001", "10001", "11110"),
+    "C": ("01111", "10000", "10000", "10000", "10000", "10000", "01111"),
+    "D": ("11110", "10001", "10001", "10001", "10001", "10001", "11110"),
+    "E": ("11111", "10000", "10000", "11110", "10000", "10000", "11111"),
+    "F": ("11111", "10000", "10000", "11110", "10000", "10000", "10000"),
+    "H": ("10001", "10001", "10001", "11111", "10001", "10001", "10001"),
+    "I": ("11111", "00100", "00100", "00100", "00100", "00100", "11111"),
+    "K": ("10001", "10010", "10100", "11000", "10100", "10010", "10001"),
+    "L": ("10000", "10000", "10000", "10000", "10000", "10000", "11111"),
+    "N": ("10001", "11001", "10101", "10011", "10001", "10001", "10001"),
+    "O": ("01110", "10001", "10001", "10001", "10001", "10001", "01110"),
+    "P": ("11110", "10001", "10001", "11110", "10000", "10000", "10000"),
+    "R": ("11110", "10001", "10001", "11110", "10100", "10010", "10001"),
+    "S": ("01111", "10000", "10000", "01110", "00001", "00001", "11110"),
+    "T": ("11111", "00100", "00100", "00100", "00100", "00100", "00100"),
+    "U": ("10001", "10001", "10001", "10001", "10001", "10001", "01110"),
+    "V": ("10001", "10001", "10001", "10001", "10001", "01010", "00100"),
+    "W": ("10001", "10001", "10001", "10101", "10101", "10101", "01010"),
+    "X": ("10001", "10001", "01010", "00100", "01010", "10001", "10001"),
+    "Z": ("11111", "00001", "00010", "00100", "01000", "10000", "11111"),
+    "3": ("11110", "00001", "00001", "01110", "00001", "00001", "11110"),
+    "-": ("00000", "00000", "00000", "11111", "00000", "00000", "00000"),
+    ".": ("00000", "00000", "00000", "00000", "00000", "01100", "01100"),
+    " ": ("00000",) * 7,
 }
 
 
@@ -62,24 +77,30 @@ def resample(sheet: np.ndarray) -> np.ndarray:
 
 
 def text_width(text: str) -> int:
-    return len(text) * 4 - 1
+    return len(text) * (GLYPH_WIDTH + 1) - 1
 
 
 def draw_text(canvas: np.ndarray, text: str, x: int, y: int, color) -> None:
     for index, char in enumerate(text):
-        for bit_index, bit in enumerate(GLYPHS[char]):
-            if bit == "1":
-                canvas[y + bit_index // 3, x + index * 4 + bit_index % 3] = (*color, 255)
+        for row, bits in enumerate(GLYPHS[char]):
+            for column, bit in enumerate(bits):
+                if bit == "1":
+                    canvas[y + row, x + index * (GLYPH_WIDTH + 1) + column] = (*color, 255)
 
 
 def draw_label(tile: np.ndarray, label: str) -> None:
-    """Ink-bordered white tag across the bottom 8 rows, readable on light and dark themes."""
-    width = text_width(label) + 4
+    """Ink-bordered white tag on the bottom rows, readable on light and dark themes."""
+    width = text_width(label) + 6
     left = (tile.shape[1] - width) // 2
-    top = tile.shape[0] - 8
-    tile[top:top + 7, left:left + width] = (*INK, 255)
-    tile[top + 1:top + 6, left + 1:left + width - 1] = (*WHITE, 255)
-    draw_text(tile, label, left + 2, top + 1, INK)
+    top = tile.shape[0] - GLYPH_HEIGHT - 5
+    tile[top:top + GLYPH_HEIGHT + 4, left:left + width] = (*INK, 255)
+    tile[top + 1:top + GLYPH_HEIGHT + 3, left + 1:left + width - 1] = (*WHITE, 255)
+    draw_text(tile, label, left + 3, top + 2, INK)
+
+
+def refine(rgba: np.ndarray) -> np.ndarray:
+    """Splits every art pixel into TEXT_DENSITY^2 so text can use half-size pixels."""
+    return rgba.repeat(TEXT_DENSITY, axis=0).repeat(TEXT_DENSITY, axis=1)
 
 
 def to_rgba(art: np.ndarray) -> np.ndarray:
@@ -105,25 +126,27 @@ def clear_outer_white(rgba: np.ndarray) -> np.ndarray:
 
 def save(rgba: np.ndarray, path: Path) -> None:
     image = Image.fromarray(rgba, "RGBA")
-    image.resize((image.width * SCALE, image.height * SCALE), Image.NEAREST).save(path, optimize=True)
-    print(f"{path.name}: art {image.width}x{image.height}, README width {image.width * SCALE // 2}")
+    factor = SCALE // TEXT_DENSITY
+    image.resize((image.width * factor, image.height * factor), Image.NEAREST).save(path, optimize=True)
+    print(f"{path.name}: README width {image.width * factor // 2}")
 
 
 def build_banner(art: np.ndarray) -> np.ndarray:
     left, top, right, bottom = BANNER_BOX
-    banner = to_rgba(art[top:bottom, left:right])
-    draw_text(banner, "HELLO.EXE", 78, 11, WHITE)
-    draw_text(banner, "NATAN", 96, 19, INK)
-    draw_text(banner, "VIANA", 96, 25, INK)
-    draw_text(banner, "DEV - BR", 96, 31, (40, 90, 200))
+    banner = refine(to_rgba(art[top:bottom, left:right]))
+    draw_text(banner, "HELLO.EXE", 156, 24, WHITE)
+    draw_text(banner, "NATAN VIANA", 192, 41, INK)
+    draw_text(banner, "DEVELOPER", 192, 51, INK)
+    draw_text(banner, "BRAZIL", 192, 61, (40, 90, 200))
     return banner
 
 
 def build_taskbar(art: np.ndarray) -> np.ndarray:
     left, top, right, bottom = TASKBAR_BOX
-    taskbar = clear_outer_white(to_rgba(art[top:bottom, left:right]))
-    draw_text(taskbar, "NATAN", 8, 5, WHITE)
-    draw_text(taskbar, "UTC-3 BR", 178, 5, WHITE)
+    taskbar = refine(clear_outer_white(to_rgba(art[top:bottom, left:right])))
+    draw_text(taskbar, "NATAN", 16, 10, WHITE)
+    draw_text(taskbar, "UNCACHED.APP", 72, 10, WHITE)
+    draw_text(taskbar, "UTC-3 BR", 364, 10, WHITE)
     return taskbar
 
 
@@ -134,6 +157,7 @@ def build_icon(art: np.ndarray, column: tuple, label: str) -> np.ndarray:
     tile = np.zeros((tile_height, tile_width, 4), dtype=np.uint8)
     x = (tile_width - icon.shape[1]) // 2
     tile[1:1 + icon.shape[0], x:x + icon.shape[1]] = icon
+    tile = refine(tile)
     draw_label(tile, label)
     return tile
 

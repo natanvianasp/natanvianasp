@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" width="856" alt="hello.exe: Natan Viana, developer from Brazil" />
+  <a href="https://natanviana.dev"><img src="assets/banner.png" width="856" alt="hello.exe: Natan Viana, developer from Brazil" /></a>
 </p>
 
 <p align="center">
@@ -19,5 +19,5 @@
 </p>
 
 <p align="center">
-  <img src="assets/taskbar.png" width="880" alt="" />
+  <a href="https://uncached.app"><img src="assets/taskbar.png" width="880" alt="uncached.app" /></a>
 </p>
