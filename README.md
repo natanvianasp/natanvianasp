@@ -1,20 +1,23 @@
 <p align="center">
-  <img src="assets/window-hello.svg" width="820" alt="Hi, I'm Natan Viana. Software engineer from Brazil, building Uncached, an open-source disk cleaner." />
+  <img src="assets/banner.png" width="856" alt="hello.exe: Natan Viana, developer from Brazil" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/uncached-app"><img src="assets/icon-uncached.svg" width="110" alt="Uncached" /></a>
-  <a href="https://github.com/uncached-app/uncached-core"><img src="assets/icon-core.svg" width="110" alt="uncached-core" /></a>
-  <a href="https://github.com/uncached-app/uncached-desktop"><img src="assets/icon-desktop.svg" width="110" alt="uncached-desktop" /></a>
-  <a href="https://uncached.app"><img src="assets/icon-website.svg" width="110" alt="uncached.app" /></a>
-  <a href="https://natanviana.dev"><img src="assets/icon-portfolio.svg" width="110" alt="natanviana.dev" /></a>
-  <a href="https://github.com/ri7-consultoria"><img src="assets/icon-ri7.svg" width="110" alt="RI7 Consultoria" /></a>
+  Building <a href="https://uncached.app"><b>Uncached</b></a>, an open-source disk cleaner for developers.
 </p>
 
 <p align="center">
-  <img src="assets/window-stack.svg" width="820" alt="Stack: Rust, TypeScript, GDScript, React, Astro, Tauri v2, Cloudflare Workers, Supabase." />
+  <a href="https://github.com/uncached-app"><img src="assets/icon-uncached.png" width="120" alt="Uncached" /></a>
+  <a href="https://github.com/uncached-app/uncached-core"><img src="assets/icon-core.png" width="120" alt="uncached-core" /></a>
+  <a href="https://github.com/uncached-app/uncached-desktop"><img src="assets/icon-desktop.png" width="120" alt="uncached-desktop" /></a>
+  <a href="https://uncached.app"><img src="assets/icon-website.png" width="120" alt="uncached.app" /></a>
+  <a href="https://natanviana.dev"><img src="assets/icon-portfolio.png" width="120" alt="natanviana.dev" /></a>
 </p>
 
 <p align="center">
-  <img src="assets/taskbar.svg" width="820" alt="" />
+  <code>Rust</code> · <code>TypeScript</code> · <code>React</code> · <code>Tauri</code> · <code>Astro</code> · <code>Cloudflare</code> · <code>Godot</code>
+</p>
+
+<p align="center">
+  <img src="assets/taskbar.png" width="880" alt="" />
 </p>

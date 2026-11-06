@@ -23,9 +23,9 @@ WHITE_THRESHOLD = 235
 BANNER_BOX = (13, 10, 227, 59)
 TASKBAR_BOX = (10, 111, 230, 125)
 ICON_ROW = (73, 99)
-ICON_COLUMNS = ((15, 36), (51, 76), (89, 113), (128, 149), (164, 189), (202, 227))
-ICON_NAMES = ("uncached", "core", "desktop", "website", "portfolio", "ri7")
-ICON_LABELS = ("UNCACHED", "CORE", "DESKTOP", "WEBSITE", "PORTFOLIO", "RI7")
+ICON_COLUMNS = ((15, 36), (51, 76), (89, 113), (128, 149), (164, 189))
+ICON_NAMES = ("uncached", "core", "desktop", "website", "portfolio")
+ICON_LABELS = ("UNCACHED", "CORE", "DESKTOP", "WEBSITE", "PORTFOLIO")
 ICON_TILE = (40, 37)
 
 INK = (20, 20, 15)
