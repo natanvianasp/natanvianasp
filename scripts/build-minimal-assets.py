@@ -19,21 +19,21 @@ SECONDARY = (103, 103, 111)
 LINK = (70, 70, 77)
 FONT_PATH = "/System/Library/Fonts/SFNSRounded.ttf"
 
-# Both link variants are 84 px tall. README height="42" keeps text at 2x
-# resolution while their intrinsic widths adapt to the selected picture source.
+# The link crops partition the entire row, including its blank background.
+# README widths match these proportions separately for desktop and mobile.
 SLICES = {
     "desktop": {
         "header": (0, 0, 1760, 704),
         "project": (0, 704, 1760, 890),
         "website": (0, 890, 304, 974),
-        "source": (304, 890, 448, 974),
+        "source": (304, 890, 1760, 974),
         "stack": (0, 974, 1760, 1104),
     },
     "mobile": {
         "header": (0, 0, 720, 548),
         "project": (0, 548, 720, 697),
         "website": (0, 697, 248, 781),
-        "source": (248, 697, 392, 781),
+        "source": (248, 697, 720, 781),
         "stack": (0, 781, 720, 956),
     },
 }
